@@ -1,26 +1,90 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-obsidian: #070707;
+  --color-obsidian-2: #0f0f0f;
+  --color-obsidian-3: #1a1a1a;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e8d5a3;
+  --color-gold-dim: #8a6e2e;
+  --color-cream: #f0ede8;
+  --color-muted: #6b6b6b;
+  --color-sold: #cc2200;
+  --color-border: #2a2a2a;
+
+  --font-display: var(--font-cormorant), 'Georgia', serif;
+  --font-sans: var(--font-dm-sans), 'Helvetica Neue', sans-serif;
+  --font-mono: var(--font-space-mono), 'Courier New', monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  cursor: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background-color: #070707;
+  color: #f0ede8;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #070707;
+  color: #f0ede8;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Disable selection on images */
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* Allow pointer events on interactive elements but never on images */
+a, button, input, textarea, select, label {
+  pointer-events: auto;
+}
+
+/* Hide images when printing */
+@media print {
+  img,
+  .cover-image,
+  .cover-bg {
+    display: none !important;
+  }
+  body::before {
+    content: 'Printing is disabled on Genius Graphics.';
+    display: block;
+    padding: 4rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #070707;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a84c;
+}
+
+/* Smooth scroll offset for sticky nav */
+html {
+  scroll-padding-top: 80px;
+}
+
+/* Selection color */
+::selection {
+  background: #c9a84c33;
+  color: #e8d5a3;
 }
