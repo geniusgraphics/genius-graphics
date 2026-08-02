@@ -8,6 +8,7 @@ export interface Cover {
   description: string
   imageFile: string
   videoCount: number
+  videoFiles?: string[]
   priceImage: number
   priceWithVideos: number
   sold: boolean

@@ -9,6 +9,7 @@ import WatermarkOverlay from '@/components/WatermarkOverlay'
 import PurchaseModal from '@/components/PurchaseModal'
 import { createClient } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
+import VideoPreview from '@/components/VideoPreview'
 import type { Cover } from '@/types'
 
 export default function CoverDetail({ cover }: { cover: Cover }) {
@@ -47,41 +48,53 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-[1fr_420px] gap-12 lg:gap-20 items-start">
-          {/* Cover image */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative aspect-square overflow-hidden bg-obsidian-3"
-            onContextMenu={(e) => e.preventDefault()}
-          >
-            <div
-              className="absolute inset-0 cover-bg"
-              style={{
-                backgroundImage: `url(/covers/${cover.imageFile})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                filter: cover.sold ? 'grayscale(80%) brightness(0.7)' : undefined,
-              } as React.CSSProperties}
+          {/* Left column: cover image + motion preview */}
+          <div className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="relative aspect-square overflow-hidden bg-obsidian-3"
               onContextMenu={(e) => e.preventDefault()}
-              onDragStart={(e) => e.preventDefault()}
-            />
-            <WatermarkOverlay />
+            >
+              <div
+                className="absolute inset-0 cover-bg"
+                style={{
+                  backgroundImage: `url(/covers/${cover.imageFile})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: cover.sold ? 'grayscale(80%) brightness(0.7)' : undefined,
+                } as React.CSSProperties}
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+              />
+              <WatermarkOverlay />
 
-            {cover.sold && (
-              <div className="absolute inset-0 z-20 flex items-center justify-center">
-                <div style={{ transform: 'rotate(-20deg)', border: '4px solid #CC2200', padding: '12px 36px' }}>
-                  <span className="font-mono font-bold text-sold text-4xl tracking-[0.3em]">SOLD</span>
+              {cover.sold && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center">
+                  <div style={{ transform: 'rotate(-20deg)', border: '4px solid #CC2200', padding: '12px 36px' }}>
+                    <span className="font-mono font-bold text-sold text-4xl tracking-[0.3em]">SOLD</span>
+                  </div>
                 </div>
+              )}
+
+              <div className="absolute top-4 left-4 z-10 bg-obsidian/80 backdrop-blur-sm px-3 py-1.5 border border-border">
+                <span className="font-mono text-xs tracking-widest text-gold uppercase">{cover.category}</span>
               </div>
+            </motion.div>
+
+            {cover.videoFiles && cover.videoFiles.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <VideoPreview videoFiles={cover.videoFiles} />
+              </motion.div>
             )}
+          </div>
 
-            <div className="absolute top-4 left-4 z-10 bg-obsidian/80 backdrop-blur-sm px-3 py-1.5 border border-border">
-              <span className="font-mono text-xs tracking-widest text-gold uppercase">{cover.category}</span>
-            </div>
-          </motion.div>
-
-          {/* Details */}
+          {/* Right column: Details */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
