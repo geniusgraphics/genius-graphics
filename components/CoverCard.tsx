@@ -19,11 +19,13 @@ export default function CoverCard({ cover, index = 0 }: Props) {
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [6, -6]), { stiffness: 260, damping: 28 })
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-6, 6]), { stiffness: 260, damping: 28 })
+  // Gentler tilt — 3° max to keep it smooth
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [3, -3]), { stiffness: 200, damping: 30 })
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-3, 3]), { stiffness: 200, damping: 30 })
+
   const glareXPct = useTransform(mouseX, [0, 1], [0, 100])
   const glareYPct = useTransform(mouseY, [0, 1], [0, 100])
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareXPct}% ${glareYPct}%, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.05) 40%, transparent 60%)`
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareXPct}% ${glareYPct}%, rgba(201,168,76,0.18) 0%, rgba(201,168,76,0.04) 40%, transparent 60%)`
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return
@@ -41,13 +43,13 @@ export default function CoverCard({ cover, index = 0 }: Props) {
   const num = String(index + 1).padStart(2, '0')
 
   const cardContent = (
-    <div style={{ perspective: '1000px' }}>
+    <div style={{ perspective: '1200px' }}>
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 60 }}
+        initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.75, delay: (index % 3) * 0.12, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: false, amount: 0.15 }}
+        transition={{ duration: 0.7, delay: (index % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={handleMouseLeave}
@@ -56,10 +58,11 @@ export default function CoverCard({ cover, index = 0 }: Props) {
           rotateX: cover.sold ? 0 : rotateX,
           rotateY: cover.sold ? 0 : rotateY,
           transformStyle: 'preserve-3d',
+          willChange: 'transform',
         }}
         className="relative group block overflow-hidden bg-obsidian-3 aspect-square"
       >
-        {/* Cover image */}
+        {/* Cover image — CSS transition for GPU compositing */}
         <div
           className="absolute inset-0 cover-bg"
           style={{
@@ -67,46 +70,34 @@ export default function CoverCard({ cover, index = 0 }: Props) {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: cover.sold ? 'grayscale(100%) brightness(0.55)' : 'brightness(0.92)',
-            transform: hovered ? 'scale(1.09)' : 'scale(1)',
-            transition: 'transform 0.85s cubic-bezier(0.22,1,0.36,1)',
+            transform: hovered ? 'scale(1.07)' : 'scale(1)',
+            transition: 'transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+            willChange: 'transform',
           } as React.CSSProperties}
           onContextMenu={(e) => e.preventDefault()}
           onDragStart={(e) => e.preventDefault()}
         />
 
-        {/* Gold glare shimmer — follows cursor */}
-        {!cover.sold && (
+        {/* Gold glare — only mounted on hover for perf */}
+        {hovered && !cover.sold && (
           <motion.div
             className="absolute inset-0 z-10 pointer-events-none"
-            style={{
-              background: glareBackground,
-              opacity: hovered ? 1 : 0,
-              transition: 'opacity 0.4s ease',
-            }}
-          />
-        )}
-
-        {/* Edge glow on hover */}
-        {!cover.sold && (
-          <motion.div
-            className="absolute inset-0 z-10 pointer-events-none"
-            animate={{ opacity: hovered ? 1 : 0 }}
-            transition={{ duration: 0.4 }}
-            style={{
-              boxShadow: 'inset 0 0 40px rgba(201,168,76,0.08)',
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            style={{ background: glareBackground }}
           />
         )}
 
         {/* GG Watermark */}
         <WatermarkOverlay />
 
-        {/* Index number */}
+        {/* Index */}
         <div className="absolute top-3 left-3 z-20">
           <span className="font-mono text-[10px] text-cream/25 tracking-widest">{num}</span>
         </div>
 
-        {/* Sold overlay */}
+        {/* Sold stamp */}
         {cover.sold && (
           <div className="absolute inset-0 z-20 flex items-center justify-center">
             <div style={{ transform: 'rotate(-25deg)', border: '3px solid #CC2200', padding: '8px 24px' }}>
@@ -120,33 +111,30 @@ export default function CoverCard({ cover, index = 0 }: Props) {
           </div>
         )}
 
-        {/* Hover reveal panel */}
+        {/* Hover panel — slides up */}
         <motion.div
           initial={{ y: '100%' }}
           animate={{ y: cover.sold ? '100%' : hovered ? 0 : '100%' }}
-          transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-obsidian via-obsidian/96 to-transparent p-5 pt-14"
         >
           <motion.div
             initial={false}
-            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 14 }}
-            transition={{ duration: 0.32, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 12 }}
+            transition={{ duration: 0.28, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="font-mono text-[10px] tracking-[0.3em] text-gold uppercase mb-1.5">
               {cover.category}
             </p>
-            <h3
-              className="font-display text-xl text-cream leading-tight"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+            <h3 className="font-display text-xl text-cream leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
               {cover.title}
             </h3>
           </motion.div>
 
           <motion.div
             initial={false}
-            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 14 }}
-            transition={{ duration: 0.32, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 12 }}
+            transition={{ duration: 0.28, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center justify-between mt-3 pt-3 border-t border-white/10"
           >
             {cover.videoCount > 0 ? (

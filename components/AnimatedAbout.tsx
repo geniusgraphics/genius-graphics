@@ -15,7 +15,7 @@ export default function AnimatedAbout() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 1.5, delay: 0.3 }}
         className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none"
         style={{
@@ -38,7 +38,7 @@ export default function AnimatedAbout() {
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             className="font-mono text-xs tracking-[0.4em] text-gold uppercase"
           >
@@ -49,7 +49,7 @@ export default function AnimatedAbout() {
             <motion.h2
               initial={{ y: '100%' }}
               whileInView={{ y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 1.0, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-5xl md:text-6xl font-light text-cream leading-tight"
               style={{ fontFamily: 'var(--font-display)' }}
@@ -62,7 +62,7 @@ export default function AnimatedAbout() {
           <motion.div
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="h-px bg-gradient-to-r from-gold to-transparent origin-left"
             style={{ width: '80%' }}
@@ -76,7 +76,7 @@ export default function AnimatedAbout() {
               key={i}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
+              viewport={{ once: false, amount: 0.15 }}
               transition={{ duration: 0.75, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="text-muted leading-relaxed text-sm"
             >
@@ -87,7 +87,7 @@ export default function AnimatedAbout() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.7, delay: 0.5 }}
             className="pt-6 border-t border-border"
           >

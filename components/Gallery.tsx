@@ -20,7 +20,7 @@ export default function Gallery({ covers }: { covers: Cover[] }) {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.15 }}
             transition={{ duration: 0.6 }}
             className="font-mono text-xs tracking-[0.4em] text-gold uppercase mb-3"
           >
@@ -30,7 +30,7 @@ export default function Gallery({ covers }: { covers: Cover[] }) {
             <motion.h2
               initial={{ y: '100%' }}
               whileInView={{ y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.15 }}
               transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-5xl md:text-6xl text-cream font-light"
               style={{ fontFamily: 'var(--font-display)' }}
@@ -43,7 +43,7 @@ export default function Gallery({ covers }: { covers: Cover[] }) {
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.15 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="flex items-center gap-6 font-mono text-xs"
         >
@@ -61,7 +61,7 @@ export default function Gallery({ covers }: { covers: Cover[] }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.15 }}
         transition={{ duration: 0.6, delay: 0.1 }}
         className="flex flex-wrap gap-2 mb-12"
       >
@@ -70,7 +70,7 @@ export default function Gallery({ covers }: { covers: Cover[] }) {
             key={cat}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.15 }}
             transition={{ duration: 0.4, delay: i * 0.06 }}
             onClick={() => setActive(cat)}
             style={{ pointerEvents: 'auto', cursor: 'none' }}
