@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import type { Cover } from '@/types'
@@ -16,8 +16,8 @@ function WordReveal({ words, delay = 0 }: { words: string[]; delay?: number }) {
             initial={{ y: '110%' }}
             animate={{ y: 0 }}
             transition={{
-              duration: 1.1,
-              delay: delay + i * 0.12,
+              duration: 1.2,
+              delay: delay + i * 0.13,
               ease: [0.22, 1, 0.36, 1],
             }}
             className="block font-display"
@@ -31,6 +31,26 @@ function WordReveal({ words, delay = 0 }: { words: string[]; delay?: number }) {
   )
 }
 
+function Counter({ to, delay = 0 }: { to: number; delay?: number }) {
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const duration = 1600
+      const start = performance.now()
+      const tick = (now: number) => {
+        const t = Math.min((now - start) / duration, 1)
+        const eased = 1 - Math.pow(1 - t, 3)
+        setVal(Math.round(eased * to))
+        if (t < 1) requestAnimationFrame(tick)
+        else setVal(to)
+      }
+      requestAnimationFrame(tick)
+    }, delay * 1000)
+    return () => clearTimeout(timer)
+  }, [to, delay])
+  return <>{val}</>
+}
+
 export default function Hero({ featured }: { featured: Cover[] }) {
   const bg1 = featured[0]
   const bg2 = featured[1]
@@ -38,32 +58,74 @@ export default function Hero({ featured }: { featured: Cover[] }) {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden select-none">
-      {/* Background covers — blurred ambient */}
+
+      {/* Background covers — Ken Burns */}
       {[bg1, bg2, bg3].map((cover, i) =>
         cover ? (
           <motion.div
             key={cover.id}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2, delay: i * 0.4, ease: 'easeOut' }}
-            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 3, delay: i * 0.5, ease: 'easeOut' }}
+            className={`absolute inset-0 kb-${i + 1}`}
             style={{
               backgroundImage: `url(/covers/${cover.imageFile})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              filter: 'blur(40px) brightness(0.15)',
-              transform: `scale(1.15) translate(${(i - 1) * 12}%, ${(i - 1) * 4}%)`,
+              filter: 'blur(50px) brightness(0.12)',
               zIndex: 0,
             }}
           />
         ) : null
       )}
 
-      {/* Dark gradient over background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-obsidian/60 via-obsidian/40 to-obsidian z-[1]" />
+      {/* Dark gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-obsidian/70 via-obsidian/50 to-obsidian z-[1]" />
+
+      {/* Ambient orbs */}
+      <motion.div
+        className="absolute pointer-events-none z-[2]"
+        style={{
+          width: 700,
+          height: 700,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(201,168,76,0.055) 0%, transparent 68%)',
+          top: '5%',
+          left: '-10%',
+        }}
+        animate={{ x: [0, 60, -30, 0], y: [0, -40, 30, 0] }}
+        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute pointer-events-none z-[2]"
+        style={{
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 68%)',
+          bottom: '10%',
+          right: '-5%',
+        }}
+        animate={{ x: [0, -50, 20, 0], y: [0, 40, -25, 0] }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
+      />
+      <motion.div
+        className="absolute pointer-events-none z-[2]"
+        style={{
+          width: 350,
+          height: 350,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(240,237,232,0.025) 0%, transparent 68%)',
+          top: '40%',
+          left: '55%',
+        }}
+        animate={{ x: [0, 30, -20, 0], y: [0, -30, 20, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+      />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-7xl mx-auto">
+
         {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -71,24 +133,52 @@ export default function Hero({ featured }: { featured: Cover[] }) {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-8 flex items-center justify-center gap-4"
         >
-          <span className="block w-8 h-px bg-gold" />
+          <motion.span
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="block w-10 h-px bg-gold origin-left"
+          />
           <span className="font-mono text-xs tracking-[0.4em] text-gold uppercase">
             Genius Graphics · Est. 2025
           </span>
-          <span className="block w-8 h-px bg-gold" />
+          <motion.span
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="block w-10 h-px bg-gold origin-right"
+          />
         </motion.div>
 
         {/* Main headline */}
-        <div className="text-[clamp(3.5rem,10vw,10rem)] leading-[0.9] font-light mb-6 text-cream">
+        <div className="text-[clamp(3.5rem,10vw,10rem)] leading-[0.9] font-light mb-6 text-cream relative">
           <WordReveal words={WORDS_LINE1} delay={0.4} />
-          <WordReveal words={WORDS_LINE2} delay={0.6} />
+          <WordReveal words={WORDS_LINE2} delay={0.62} />
+
+          {/* Gold scan sweep */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 1, 0] }}
+            transition={{ duration: 1.4, delay: 2.2, times: [0, 0.1, 0.9, 1] }}
+          >
+            <motion.div
+              className="absolute top-0 bottom-0 w-[30%]"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.12), transparent)',
+              }}
+              initial={{ x: '-100%' }}
+              animate={{ x: '450%' }}
+              transition={{ duration: 1.2, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </motion.div>
         </div>
 
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.2 }}
+          transition={{ duration: 0.9, delay: 1.3 }}
           className="mt-10 text-muted text-base md:text-lg font-sans font-light tracking-wide max-w-md mx-auto"
         >
           Premium cover art. One owner. Yours forever.
@@ -98,50 +188,67 @@ export default function Hero({ featured }: { featured: Cover[] }) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.4 }}
+          transition={{ duration: 0.9, delay: 1.5 }}
           className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
             href="#collection"
-            className="group px-8 py-4 bg-gold text-obsidian font-mono text-xs tracking-widest uppercase hover:bg-gold-light transition-all duration-300 flex items-center gap-3"
+            className="group relative px-8 py-4 bg-gold text-obsidian font-mono text-xs tracking-widest uppercase overflow-hidden flex items-center gap-3"
             style={{ pointerEvents: 'auto', cursor: 'none' }}
           >
-            Explore Collection
+            {/* Button shimmer */}
             <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              initial={{ x: '-100%' }}
+              animate={{ x: '200%' }}
+              transition={{ duration: 0.8, delay: 2.2, ease: 'easeInOut' }}
+            />
+            <span className="relative">Explore Collection</span>
+            <motion.span
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+              className="relative"
             >
               →
             </motion.span>
           </Link>
           <Link
             href="#about"
-            className="px-8 py-4 border border-border text-muted font-mono text-xs tracking-widest uppercase hover:border-cream hover:text-cream transition-all duration-300"
+            className="px-8 py-4 border border-border text-muted font-mono text-xs tracking-widest uppercase hover:border-cream hover:text-cream transition-all duration-400"
             style={{ pointerEvents: 'auto', cursor: 'none' }}
           >
             Our Story
           </Link>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats — counter animation */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.8 }}
+          transition={{ duration: 1, delay: 1.9 }}
           className="mt-20 flex items-center justify-center gap-12 text-center"
         >
-          {[
-            { value: '18', label: 'Originals' },
-            { value: '£3–£12', label: 'Starting from' },
-            { value: '1×', label: 'Owner per piece' },
-          ].map((stat) => (
-            <div key={stat.label} className="space-y-1">
-              <div className="font-display text-3xl text-gold" style={{ fontFamily: 'var(--font-display)' }}>
-                {stat.value}
-              </div>
-              <div className="font-mono text-xs tracking-widest text-muted uppercase">{stat.label}</div>
+          {/* Dividers */}
+          <div className="space-y-1">
+            <div className="font-display text-3xl text-gold" style={{ fontFamily: 'var(--font-display)' }}>
+              <Counter to={28} delay={2.2} />
             </div>
-          ))}
+            <div className="font-mono text-xs tracking-widest text-muted uppercase">Originals</div>
+          </div>
+          <div className="w-px h-8 bg-border" />
+          <div className="space-y-1">
+            <div className="font-display text-3xl text-gold" style={{ fontFamily: 'var(--font-display)' }}>
+              £3–£12
+            </div>
+            <div className="font-mono text-xs tracking-widest text-muted uppercase">Starting from</div>
+          </div>
+          <div className="w-px h-8 bg-border" />
+          <div className="space-y-1">
+            <div className="font-display text-3xl text-gold" style={{ fontFamily: 'var(--font-display)' }}>
+              1×
+            </div>
+            <div className="font-mono text-xs tracking-widest text-muted uppercase">Owner per piece</div>
+          </div>
         </motion.div>
       </div>
 
@@ -149,14 +256,14 @@ export default function Hero({ featured }: { featured: Cover[] }) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2.2 }}
+        transition={{ duration: 1, delay: 2.4 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
-        <span className="font-mono text-xs tracking-widest text-muted/50 uppercase">Scroll</span>
+        <span className="font-mono text-[10px] tracking-[0.4em] text-muted/40 uppercase">Scroll</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-          className="w-px h-10 bg-gradient-to-b from-gold/50 to-transparent"
+          animate={{ scaleY: [0, 1, 0], y: [0, 0, 10] }}
+          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut', times: [0, 0.5, 1] }}
+          className="w-px h-10 bg-gradient-to-b from-gold/60 to-transparent origin-top"
         />
       </motion.div>
     </section>

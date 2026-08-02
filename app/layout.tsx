@@ -48,6 +48,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="robots" content="noindex, noimageindex" />
       </head>
       <body className="bg-obsidian text-cream antialiased overflow-x-hidden">
+        {/* Film grain overlay */}
+        <div className="grain-overlay" aria-hidden="true" />
         <SmoothScrollProvider>
           <Cursor />
           <Nav />
