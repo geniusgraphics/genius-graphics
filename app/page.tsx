@@ -1,5 +1,6 @@
 import Hero from '@/components/Hero'
 import Gallery from '@/components/Gallery'
+import HowItWorks from '@/components/HowItWorks'
 import Footer from '@/components/Footer'
 import { covers, getFeaturedCovers } from '@/lib/covers-data'
 import AnimatedAbout from '@/components/AnimatedAbout'
@@ -10,6 +11,8 @@ export default function HomePage() {
   return (
     <>
       <Hero featured={featured} />
+
+      <HowItWorks />
 
       <Gallery covers={covers} />
 

@@ -110,6 +110,19 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
 
             {!cover.sold && (
               <div className="space-y-3">
+                {/* File spec row */}
+                <div className="flex flex-wrap gap-3 pb-1">
+                  {[
+                    'PNG · 3000 × 3000px',
+                    'Commercial License',
+                    'Instant Delivery',
+                  ].map((spec) => (
+                    <span key={spec} className="font-mono text-[10px] tracking-widest text-muted/70 uppercase inline-flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-gold/50 rounded-full inline-block" />
+                      {spec}
+                    </span>
+                  ))}
+                </div>
                 <p className="font-mono text-xs tracking-widest text-muted uppercase">Pricing Options</p>
                 <div className="border border-border p-4 space-y-3">
                   <div className="flex justify-between items-center">
@@ -189,6 +202,17 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
               </div>
             )}
 
+            {/* Trust line */}
+            {!cover.sold && (
+              <div className="flex items-center justify-center gap-3 py-2">
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <rect x="2" y="6" width="10" height="7" stroke="rgba(201,168,76,0.5)" strokeWidth="1.2"/>
+                  <path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="rgba(201,168,76,0.5)" strokeWidth="1.2" fill="none"/>
+                  <circle cx="7" cy="9.5" r="1" fill="rgba(201,168,76,0.5)"/>
+                </svg>
+                <span className="font-mono text-[10px] tracking-widest text-muted/50 uppercase">Secure checkout · Powered by Stripe</span>
+              </div>
+            )}
             <p className="font-mono text-xs text-muted/40 tracking-widest text-center">
               ALL IMAGES PROTECTED · GG WATERMARK · EXCLUSIVE OWNERSHIP
             </p>
