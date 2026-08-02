@@ -223,6 +223,7 @@ export const covers: Cover[] = [
   // — 2026 Collection —
   {
     id: 'girl-walk',
+    isNew: true,
     title: 'City Walk',
     category: 'Portraits',
     slug: 'city-walk',
@@ -247,6 +248,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    isNew: true,
   },
   {
     id: 'jump',
@@ -261,6 +263,7 @@ export const covers: Cover[] = [
     priceWithVideos: 11,
     sold: false,
     featured: true,
+    isNew: true,
   },
   {
     id: 'rooftop-1',
@@ -274,6 +277,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    isNew: true,
   },
   {
     id: 'rooftop-2',
@@ -287,6 +291,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    isNew: true,
   },
   {
     id: 'rooftop-3',
@@ -300,6 +305,7 @@ export const covers: Cover[] = [
     priceImage: 6,
     priceWithVideos: 11,
     sold: false,
+    isNew: true,
   },
   {
     id: 'run',
@@ -313,6 +319,7 @@ export const covers: Cover[] = [
     priceImage: 6,
     priceWithVideos: 11,
     sold: false,
+    isNew: true,
   },
   {
     id: 'apex',
@@ -325,6 +332,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    isNew: true,
   },
   {
     id: 'ascend',
@@ -337,6 +345,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    isNew: true,
   },
   {
     id: 'signal',
@@ -349,6 +358,7 @@ export const covers: Cover[] = [
     priceImage: 6,
     priceWithVideos: 11,
     sold: false,
+    isNew: true,
   },
 ]
 

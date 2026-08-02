@@ -2,9 +2,9 @@
 import { motion } from 'framer-motion'
 
 const paragraphs = [
-  'Every cover in our collection is a standalone original — crafted with intention, priced for artists, and sold to a single owner. When it\'s gone, it\'s gone.',
-  'Each piece comes with the option to add short-form motion content — giving your release the full visual identity it deserves across streaming platforms and social media.',
-  'We protect our work and we protect yours. Every image is watermarked until purchase. After you buy, you receive the clean, full-resolution file — ready for immediate use.',
+  'Most artists release their music with the same five Canva templates. Different song, same cover. We built Genius Graphics to change that — one original per artist, no exceptions, no duplicates, ever.',
+  'Every piece ships with two files: a styled preview showing you exactly how the typography sits, and a clean blank canvas ready for your own text. Add motion videos for a complete visual identity across streaming and social.',
+  'We believe what you look like is part of what you sound like. When your cover is exclusive, your release feels exclusive. That\'s not vanity — it\'s strategy.',
 ]
 
 export default function AnimatedAbout() {

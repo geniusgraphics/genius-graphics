@@ -152,14 +152,19 @@ export default function Hero({ featured }: { featured: Cover[] }) {
         </div>
 
         {/* Subtitle */}
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 1.3 }}
-          className="mt-10 text-muted text-base md:text-lg font-sans font-light tracking-wide max-w-md mx-auto"
+          className="mt-10 space-y-3 text-center"
         >
-          Premium cover art. One owner. Yours forever.
-        </motion.p>
+          <p className="text-cream text-base md:text-lg font-sans font-light tracking-wide max-w-lg mx-auto">
+            Not a template. Not stock. Not used by anyone else.
+          </p>
+          <p className="text-muted text-sm font-sans font-light tracking-wide max-w-sm mx-auto">
+            Original cover art — sold once, owned forever. Every piece comes with a styled preview and a clean file.
+          </p>
+        </motion.div>
 
         {/* CTAs */}
         <motion.div

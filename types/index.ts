@@ -14,6 +14,7 @@ export interface Cover {
   sold: boolean
   soldAt?: string
   featured?: boolean
+  isNew?: boolean
 }
 
 export interface Purchase {

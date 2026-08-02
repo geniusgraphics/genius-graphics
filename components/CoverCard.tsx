@@ -12,6 +12,10 @@ interface Props {
   index?: number
 }
 
+function deriveCleanFile(imageFile: string): string {
+  return imageFile.replace('-title.', '-clean.')
+}
+
 export default function CoverCard({ cover, index = 0 }: Props) {
   const [hovered, setHovered] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -19,7 +23,6 @@ export default function CoverCard({ cover, index = 0 }: Props) {
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
 
-  // Gentler tilt — 3° max to keep it smooth
   const rotateX = useSpring(useTransform(mouseY, [0, 1], [3, -3]), { stiffness: 200, damping: 30 })
   const rotateY = useSpring(useTransform(mouseX, [0, 1], [-3, 3]), { stiffness: 200, damping: 30 })
 
@@ -41,6 +44,7 @@ export default function CoverCard({ cover, index = 0 }: Props) {
   }
 
   const num = String(index + 1).padStart(2, '0')
+  const cleanFile = deriveCleanFile(cover.imageFile)
 
   const cardContent = (
     <div style={{ perspective: '1200px' }}>
@@ -62,7 +66,7 @@ export default function CoverCard({ cover, index = 0 }: Props) {
         }}
         className="relative group block overflow-hidden bg-obsidian-3 aspect-square"
       >
-        {/* Cover image — CSS transition for GPU compositing */}
+        {/* Styled version (default — shown at rest) */}
         <div
           className="absolute inset-0 cover-bg"
           style={{
@@ -70,15 +74,32 @@ export default function CoverCard({ cover, index = 0 }: Props) {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: cover.sold ? 'grayscale(100%) brightness(0.55)' : 'brightness(0.92)',
-            transform: hovered ? 'scale(1.07)' : 'scale(1)',
-            transition: 'transform 0.8s cubic-bezier(0.22,1,0.36,1)',
-            willChange: 'transform',
+            opacity: hovered && !cover.sold ? 0 : 1,
+            transition: 'opacity 0.55s cubic-bezier(0.22,1,0.36,1)',
+            willChange: 'opacity',
           } as React.CSSProperties}
           onContextMenu={(e) => e.preventDefault()}
           onDragStart={(e) => e.preventDefault()}
         />
 
-        {/* Gold glare — only mounted on hover for perf */}
+        {/* Clean version (revealed on hover) */}
+        {!cover.sold && (
+          <div
+            className="absolute inset-0 cover-bg"
+            style={{
+              backgroundImage: `url(/covers/${cleanFile})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: hovered ? 1 : 0,
+              transition: 'opacity 0.55s cubic-bezier(0.22,1,0.36,1)',
+              willChange: 'opacity',
+            } as React.CSSProperties}
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
+        )}
+
+        {/* Gold glare — only mounted on hover */}
         {hovered && !cover.sold && (
           <motion.div
             className="absolute inset-0 z-10 pointer-events-none"
@@ -96,6 +117,49 @@ export default function CoverCard({ cover, index = 0 }: Props) {
         <div className="absolute top-3 left-3 z-20">
           <span className="font-mono text-[10px] text-cream/25 tracking-widest">{num}</span>
         </div>
+
+        {/* NEW badge */}
+        {cover.isNew && !cover.sold && (
+          <div className="absolute top-3 right-3 z-20">
+            <span className="font-mono text-[9px] tracking-[0.25em] text-obsidian bg-gold px-1.5 py-0.5 uppercase">
+              New
+            </span>
+          </div>
+        )}
+
+        {/* Styled / Clean indicator — visible at rest, updates on hover */}
+        {!cover.sold && (
+          <motion.div
+            className="absolute bottom-3 left-3 z-20"
+            initial={false}
+            animate={{ opacity: hovered ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <span
+              className="font-mono text-[9px] tracking-[0.2em] uppercase inline-flex items-center gap-1"
+              style={{ color: 'rgba(201,168,76,0.5)' }}
+            >
+              <span style={{ display: 'inline-block', width: 4, height: 4, borderRadius: '50%', background: 'rgba(201,168,76,0.5)' }} />
+              styled preview
+            </span>
+          </motion.div>
+        )}
+        {!cover.sold && (
+          <motion.div
+            className="absolute bottom-3 left-3 z-20"
+            initial={false}
+            animate={{ opacity: hovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <span
+              className="font-mono text-[9px] tracking-[0.2em] uppercase inline-flex items-center gap-1"
+              style={{ color: 'rgba(201,168,76,0.85)' }}
+            >
+              <span style={{ display: 'inline-block', width: 4, height: 4, borderRadius: '50%', background: 'rgba(201,168,76,0.85)' }} />
+              clean version
+            </span>
+          </motion.div>
+        )}
 
         {/* Sold stamp */}
         {cover.sold && (
@@ -141,7 +205,7 @@ export default function CoverCard({ cover, index = 0 }: Props) {
               <div className="flex items-center gap-1.5">
                 <Play size={9} className="text-gold fill-gold" />
                 <span className="font-mono text-[10px] tracking-widest text-muted uppercase">
-                  +{cover.videoCount} video{cover.videoCount > 1 ? 's' : ''}
+                  +{cover.videoCount} motion video{cover.videoCount > 1 ? 's' : ''}
                 </span>
               </div>
             ) : <span />}
@@ -150,6 +214,16 @@ export default function CoverCard({ cover, index = 0 }: Props) {
               <p className="font-mono text-lg font-bold text-gold leading-none">{formatPrice(cover.priceImage)}</p>
             </div>
           </motion.div>
+
+          {/* Ownership tag in hover panel */}
+          <motion.p
+            initial={false}
+            animate={{ opacity: hovered ? 1 : 0 }}
+            transition={{ duration: 0.3, delay: 0.22 }}
+            className="font-mono text-[9px] tracking-[0.25em] text-muted/50 uppercase mt-2"
+          >
+            1 owner · forever yours
+          </motion.p>
         </motion.div>
 
         <span className="sr-only">{cover.title}</span>

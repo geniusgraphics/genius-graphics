@@ -5,20 +5,20 @@ const steps = [
   {
     num: '01',
     title: 'Browse the Collection',
-    desc: 'Every piece is a hand-crafted original. When an artist claims a cover, it\'s permanently removed — no two artists ever share the same artwork.',
+    desc: 'Every piece is a hand-crafted original. When an artist claims a cover, it\'s permanently removed — no two artists ever share the same artwork. Hover any card to preview the clean file.',
     detail: '28 originals available now',
   },
   {
     num: '02',
     title: 'Choose Your Format',
-    desc: 'Pick the cover image only, or add the motion bundle — animated 6-second clips built for Reels, Shorts, and TikTok. Complete visual identity, one checkout.',
-    detail: 'Image only · or · Image + Motion Videos',
+    desc: 'Pick the cover image, or add the motion bundle — animated 6-second clips for Reels, Shorts, and TikTok. Every purchase includes both the styled preview and the clean blank canvas.',
+    detail: 'Image · or · Image + Motion Videos',
   },
   {
     num: '03',
-    title: 'Get Your Files Instantly',
-    desc: 'Your high-resolution file is in your profile immediately after purchase. No waiting, no emails, no DMs — just secure instant access, any time.',
-    detail: 'PNG · 3000 × 3000px · Ready to upload',
+    title: 'Get Both Files Instantly',
+    desc: 'Your profile delivers two files: the styled version (typography laid out as a design reference) and the clean version ready for your own text. No waiting, no emails.',
+    detail: 'Styled PNG + Clean PNG · 3000 × 3000px',
   },
 ]
 
@@ -155,10 +155,10 @@ export default function HowItWorks() {
             <span className="text-gold font-mono text-xs font-bold">?</span>
           </div>
           <div>
-            <p className="font-mono text-xs tracking-widest text-gold uppercase mb-2">About the text you see on covers</p>
+            <p className="font-mono text-xs tracking-widest text-gold uppercase mb-2">Two files, one purchase</p>
             <p className="text-muted text-sm leading-relaxed">
-              Covers that display <span className="text-cream font-medium">"SONG TITLE"</span> and <span className="text-cream font-medium">"ARTIST NAME"</span> are showing you the typographic layout as a reference — so you can see exactly where your release info will sit.
-              Your purchased file is the full-resolution commercial artwork. Pair it with your own typography in Photoshop, Canva, or send it to your designer — the layout guide is already built in.
+              Every cover comes with <span className="text-cream font-medium">two versions</span>: the <span className="text-cream font-medium">styled preview</span> (showing you exactly how the typography sits on the artwork — a ready-made layout reference) and the <span className="text-cream font-medium">clean file</span> (blank canvas, ready for your own text in Photoshop, Canva, or any design tool).
+              Hover any cover in the gallery to see the clean version. If you want us to place your actual artist name and song title in the original style, we offer a custom text edit add-on from your cover page.
             </p>
           </div>
         </motion.div>
