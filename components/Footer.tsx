@@ -87,7 +87,7 @@ export default function Footer() {
                 Instagram
               </a>
               <a
-                href="mailto:hello@geniusgraphics.art"
+                href="mailto:geniusgraphics.info@gmail.com"
                 className="font-mono text-[10px] tracking-widest text-muted/60 hover:text-gold transition-colors uppercase"
                 style={{ pointerEvents: 'auto', cursor: 'none' }}
               >

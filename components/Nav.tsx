@@ -63,6 +63,9 @@ export default function Nav() {
             <NavLink href="/#about">About</NavLink>
             {user ? (
               <>
+                {user.email === 'geniusgraphics.info@gmail.com' && (
+                  <NavLink href="/admin">Admin</NavLink>
+                )}
                 <Link
                   href="/profile"
                   className="text-muted hover:text-cream transition-colors text-sm tracking-widest uppercase font-mono"
@@ -117,6 +120,9 @@ export default function Nav() {
             <MobileNavLink href="/#about" onClick={() => setMenuOpen(false)}>About</MobileNavLink>
             {user ? (
               <>
+                {user.email === 'geniusgraphics.info@gmail.com' && (
+                  <MobileNavLink href="/admin" onClick={() => setMenuOpen(false)}>Admin</MobileNavLink>
+                )}
                 <MobileNavLink href="/profile" onClick={() => setMenuOpen(false)}>My Profile</MobileNavLink>
                 <button
                   onClick={handleSignOut}

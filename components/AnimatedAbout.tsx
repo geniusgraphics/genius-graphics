@@ -94,11 +94,11 @@ export default function AnimatedAbout() {
             <p className="font-mono text-xs tracking-widest text-muted/50 uppercase">
               Questions?{' '}
               <a
-                href="mailto:hello@geniusgraphics.art"
+                href="mailto:geniusgraphics.info@gmail.com"
                 className="text-gold hover:text-gold-light underline transition-colors"
                 style={{ pointerEvents: 'auto', cursor: 'none' }}
               >
-                hello@geniusgraphics.art
+                geniusgraphics.info@gmail.com
               </a>
             </p>
           </motion.div>

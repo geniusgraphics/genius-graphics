@@ -137,6 +137,21 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
                   <span className="font-mono text-xs tracking-widest text-gold uppercase">{cover.category}</span>
                 </div>
 
+                {/* Heart / save button — top-right of image */}
+                {!cover.sold && (
+                  <button
+                    onClick={() => setSaved(!saved)}
+                    style={{ pointerEvents: 'auto', cursor: 'none' }}
+                    className={`absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center backdrop-blur-sm border transition-all duration-300 ${
+                      saved
+                        ? 'bg-gold/20 border-gold text-gold'
+                        : 'bg-obsidian/80 border-border text-muted hover:border-gold/60 hover:text-gold/60'
+                    }`}
+                  >
+                    <Heart size={15} fill={saved ? 'currentColor' : 'none'} />
+                  </button>
+                )}
+
                 {/* Version label on image */}
                 <div className="absolute bottom-4 right-4 z-10">
                   <AnimatePresence mode="wait">
@@ -288,7 +303,7 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
                 </div>
               </div>
               <a
-                href={`mailto:hello@geniusgraphics.art?subject=Custom Text Edit — ${encodeURIComponent(cover.title)}&body=Hi, I'd like to request a custom text edit for "${cover.title}". My artist name is: [YOUR NAME]. My song title is: [YOUR SONG].`}
+                href={`mailto:geniusgraphics.info@gmail.com?subject=Custom Text Edit — ${encodeURIComponent(cover.title)}&body=Hi, I'd like to request a custom text edit for "${cover.title}". My artist name is: [YOUR NAME]. My song title is: [YOUR SONG].`}
                 className="flex items-center justify-between w-full px-4 py-3 border border-gold/30 hover:border-gold transition-colors duration-300 group"
                 style={{ pointerEvents: 'auto', cursor: 'none' }}
               >
@@ -307,22 +322,13 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
                 <p className="text-muted text-xs">Browse our other available originals below.</p>
               </div>
             ) : (
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setModalOpen(true)}
-                  style={{ pointerEvents: 'auto', cursor: 'none' }}
-                  className="flex-1 py-4 bg-gold text-obsidian font-mono text-xs tracking-widest uppercase hover:bg-gold-light transition-colors"
-                >
-                  Purchase This Piece
-                </button>
-                <button
-                  onClick={() => setSaved(!saved)}
-                  style={{ pointerEvents: 'auto', cursor: 'none' }}
-                  className={`px-4 py-4 border transition-colors ${saved ? 'border-gold bg-gold/10 text-gold' : 'border-border text-muted hover:border-cream hover:text-cream'}`}
-                >
-                  <Heart size={16} fill={saved ? 'currentColor' : 'none'} />
-                </button>
-              </div>
+              <button
+                onClick={() => setModalOpen(true)}
+                style={{ pointerEvents: 'auto', cursor: 'none' }}
+                className="w-full py-4 bg-gold text-obsidian font-mono text-xs tracking-widest uppercase hover:bg-gold-light transition-colors"
+              >
+                Purchase This Piece
+              </button>
             )}
 
             {/* Trust line */}
