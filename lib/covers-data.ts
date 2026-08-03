@@ -13,6 +13,7 @@ export const covers: Cover[] = [
     priceWithVideos: 11,
     sold: false,
     featured: true,
+    hasClean: false,
   },
   {
     id: 'car-2',
@@ -25,6 +26,7 @@ export const covers: Cover[] = [
     priceImage: 6,
     priceWithVideos: 11,
     sold: false,
+    hasClean: false,
   },
   {
     id: 'car-3',
@@ -37,6 +39,7 @@ export const covers: Cover[] = [
     priceImage: 6,
     priceWithVideos: 10,
     sold: false,
+    hasClean: false,
   },
   {
     id: 'car-4',
@@ -49,6 +52,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    hasClean: false,
   },
   {
     id: 'car-5',
@@ -61,6 +65,7 @@ export const covers: Cover[] = [
     priceImage: 5,
     priceWithVideos: 9,
     sold: false,
+    hasClean: false,
   },
   {
     id: 'cloud-1',

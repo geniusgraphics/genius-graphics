@@ -63,7 +63,7 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
               className="space-y-3"
             >
               {/* Version toggle */}
-              {!cover.sold && (
+              {!cover.sold && cover.hasClean !== false && (
                 <div className="flex items-center gap-1 p-1 border border-border bg-obsidian-2 w-fit">
                   <button
                     onClick={() => setShowClean(false)}
@@ -107,7 +107,7 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
                 />
 
                 {/* Clean layer */}
-                {!cover.sold && (
+                {!cover.sold && cover.hasClean !== false && (
                   <div
                     className="absolute inset-0 cover-bg"
                     style={{
@@ -183,7 +183,7 @@ export default function CoverDetail({ cover }: { cover: Cover }) {
               </div>
 
               {/* Toggle hint */}
-              {!cover.sold && !showClean && (
+              {!cover.sold && cover.hasClean !== false && !showClean && (
                 <p className="font-mono text-[10px] tracking-widest text-muted/40 uppercase text-center">
                   Switch to <button onClick={() => setShowClean(true)} style={{ pointerEvents: 'auto', cursor: 'none' }} className="text-gold/60 hover:text-gold transition-colors">Clean Version</button> to see what you receive
                 </p>
